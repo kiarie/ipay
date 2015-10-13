@@ -1,0 +1,34 @@
+<p><?php print_string("paymentrequired") ?></p>
+<p><b><?php echo $instancename; ?></b></p>
+<p><b><?php echo get_string("cost").": {$instance->currency} {$localisedcost}"; ?></b></p>
+<p><img alt="<?php print_string('ipayaccepted', 'enrol_ipay') ?>" src="pics/ipay.jpg" alt="Ipay" /></p>
+<p><?php print_string("paymentinstant") ?></p>
+<?php
+    $ipayurl = empty($CFG->usepaypalsandbox) ? 'https://www.ipayafrica.com/payments/' : 'https://www.ipayafrica.com/payments';
+?>
+<form action="<?php echo $ipayurl ?>" method="post">
+
+<input type="hidden" name="live" value="0" />
+<input type="hidden" name="mm" value="1" />
+<input type="hidden" name="mb" value="1" />
+<input type="hidden" name="dc" value="1" />
+<input type="hidden" name="cc" value="1" />
+<input type="hidden" name="mer" value="1" />
+<input type="hidden" name="oid" value="<?php echo "{$USER->id}-{$course->id}-{$instance->id}"?>" />
+<input type="hidden" name="inv" value="<?php p($userfullname) ?>" />
+<input type="hidden" name="ttl" value="<?php echo "{$USER->id}-{$course->id}-{$instance->id}" ?>" />
+
+<input type="hidden" name="tcl" value="<?php p($instance->currency) ?>" />
+<input type="hidden" name="eml" value="<?php p($cost) ?>" />
+
+<input type="hidden" name="vid" value="false" />
+<input type="hidden" name="cbk" value="<?php echo "$CFG->wwwroot/enrol/ipay/ipn.php?id=$course->id" ?>" />
+<input type="hidden" name="cst" value="<?php echo $CFG->wwwroot ?>" />
+<input type="hidden" name="crl" value="2" />
+<input type="hidden" name="hsh" value="<?php print_string("continuetocourse") ?>" />
+
+<input type="submit" value="<?php print_string("sendpaymentbutton", "enrol_ipay") ?>" />
+
+</form>
+
+</div>
