@@ -1,31 +1,42 @@
+
 <p><?php print_string("paymentrequired") ?></p>
 <p><b><?php echo $instancename; ?></b></p>
 <p><b><?php echo get_string("cost").": {$instance->currency} {$localisedcost}"; ?></b></p>
 <p><img alt="<?php print_string('ipayaccepted', 'enrol_ipay') ?>" src="pics/ipay.jpg" alt="Ipay" /></p>
 <p><?php print_string("paymentinstant") ?></p>
 <?php
-    $ipayurl = empty($CFG->usepaypalsandbox) ? 'https://www.ipayafrica.com/payments/' : 'https://www.ipayafrica.com/payments';
+    $ipayurl = 'https://www.ipayafrica.com/payments';
+    $live = 'demo';
+    $mm='1'; $mb ='1'; $dc='1'; $cc='1'; $mer=''; $oid =''; $inv =''; $ttl =''; $vid="demo";
+    $cbk =$CFG->wwwroot.'/enrol/ipay/ipn.php?id='.$course->id;
+    $cst ='0'; $crl ='0'; $hshkey = "demo";
+    $p1 =''; $p2= ''; $p3='';$p4='';$crl='0';$cur ='KES';
+    $datastring = $live.$mm.$mb.$dc.$cc.$mer.$oid.$inv.$ttl.$userphonenumber.$useremail.$vid.$cur.$p1.$p2.$p3.$p4.$cbk.$cst.$crl;
+    $hashkey = hash_hmac('sha1', $datastring, $hshkey);
+
+
+    $cbk = urlencode($cbk);
 ?>
 <form action="<?php echo $ipayurl ?>" method="post">
 
-<input type="hidden" name="live" value="0" />
+<input type="hidden" name="live" value="demo" />
 <input type="hidden" name="mm" value="1" />
 <input type="hidden" name="mb" value="1" />
 <input type="hidden" name="dc" value="1" />
 <input type="hidden" name="cc" value="1" />
-<input type="hidden" name="mer" value="1" />
-<input type="hidden" name="oid" value="<?php echo "{$USER->id}-{$course->id}-{$instance->id}"?>" />
-<input type="hidden" name="inv" value="<?php p($userfullname) ?>" />
-<input type="hidden" name="ttl" value="<?php echo "{$USER->id}-{$course->id}-{$instance->id}" ?>" />
+<input type="hidden" name="mer" value="Ipay-school" />
+<input type="hidden" name="oid" value="1" />
+<input type="hidden" name="inv" value="should be same as oid" />
+<input type="hidden" name="ttl" value="" />
 
-<input type="hidden" name="tcl" value="<?php p($instance->currency) ?>" />
-<input type="hidden" name="eml" value="<?php p($cost) ?>" />
+<input type="hidden" name="tel" value="<?php p($userphonenumber) ?>" />
+<input type="hidden" name="eml" value="<?php p($useremail) ?>" />
 
-<input type="hidden" name="vid" value="false" />
-<input type="hidden" name="cbk" value="<?php echo "$CFG->wwwroot/enrol/ipay/ipn.php?id=$course->id" ?>" />
-<input type="hidden" name="cst" value="<?php echo $CFG->wwwroot ?>" />
-<input type="hidden" name="crl" value="2" />
-<input type="hidden" name="hsh" value="<?php print_string("continuetocourse") ?>" />
+<input type="hidden" name="vid" value="demo" />
+<input type="hidden" name="cbk" value="<?php echo $cbk ?>" />
+<input type="hidden" name="cst" value="0" />
+<input type="hidden" name="crl" value="0" />
+<input type="hidden" name="hsh" value="<?php echo $hashkey ?>"/>
 
 <input type="submit" value="<?php print_string("sendpaymentbutton", "enrol_ipay") ?>" />
 

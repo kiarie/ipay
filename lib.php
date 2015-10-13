@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
 class enrol_ipay_plugin extends enrol_plugin
 {
 	public function get_currencies() {
-        $codes = array('EUR', 'GBP', 'USD');
+        $codes = array('KES','EUR', 'GBP', 'USD');
         $currencies = array();
         foreach ($codes as $c) {
             $currencies[$c] = new lang_string($c, 'core_currencies');
@@ -204,7 +204,7 @@ class enrol_ipay_plugin extends enrol_plugin
 			$userfullname = fullname($USER);
 			$userfirstname = $USER->firstname;
 			$userlastname = $USER->lastname;
-			$useraddress = $USER->address;
+			$useremail = $USER->email;
 			$userphonenumber = $USER->phone1;
 			$instancename= $this->get_instance_name($instance);
 
