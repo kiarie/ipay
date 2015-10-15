@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-  <XMLDB PATH="enrol/ipay/db" VERSION="20151012" COMMENT="XMLDB file for Moodle enrol/ipay">
-    <TABLES>
-      <TABLE NAME="enrol_ipay" COMMENT="Default comment for enrol_ipay, please edit me">
-        <FIELDS>
-          <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" />
-        </FIELDS>
-        <KEYS>
-          <KEY NAME="primary" TYPE="primary" FIELDS="id" />
-        </KEYS>
-      </TABLE>
-    </TABLES>
-  </XMLDB>
+<XMLDB PATH="enrol/ipay/db" VERSION="20151015" COMMENT="XMLDB file for Moodle enrol/ipay"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="enrol_ipay" COMMENT="Default comment for enrol_ipay, please edit me">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="inv" TYPE="int" LENGTH="15" NOTNULL="false" SEQUENCE="false" COMMENT="invoice no."/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="15" NOTNULL="false" SEQUENCE="false" COMMENT="user id of enrolled"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="15" NOTNULL="false" SEQUENCE="false" COMMENT="Course id"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="15" NOTNULL="false" SEQUENCE="false" COMMENT="id of the instance of enrolment"/>
+        <FIELD NAME="paymentstatus" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Payment status of the enrolment"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

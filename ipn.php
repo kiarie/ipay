@@ -37,8 +37,8 @@ if(empty($_POST) || empty($_GET)){
 $data = new StdClass();
 
 $val = 'KIB'; //assigned iPay Vendor ID... hard code it here.
-$val1 = $_GET['id'];//id for you to authenticate the order id again and map it to the order transaction again.
-$val2 = $_GET['ivm'];//ivm the invoice number is returned as an MD5 hash for you to process if you need to.
+$data->id = $_GET['id'];//id for you to authenticate the order id again and map it to the order transaction again.
+$data->inv = $_GET['ivm'];//ivm the invoice number is returned as an MD5 hash for you to process if you need to.
 $val3 = $_GET['qwh'];
 $val4 = $_GET['afd'];
 $val5 = $_GET['poi'];
@@ -47,7 +47,7 @@ $val7 = $_GET['ifd'];
 $data->userid = $_GET['p1'];//user ID
 $data->courseid= $_GET['p2'];//course id
 $data->instanceid = $_GET['p3']; //instance id
-$ipnurl = "https://www.ipayafrica.com/ipn/?vendor=".$val."&id=".$val1."&ivm=".$val2."&qwh=".$val3."&afd=".$val4."&poi=".$val5."&uyt=".$val6."&ifd=".$val7;
+$ipnurl = "https://www.ipayafrica.com/ipn/?vendor=".$val."&id=".$data->id."&ivm=".$data->inv."&qwh=".$val3."&afd=".$val4."&poi=".$val5."&uyt=".$val6."&ifd=".$val7;
 $fp = fopen($ipnurl, "rb");
 $status = stream_get_contents($fp, -1, -1);
 fclose($fp);
@@ -73,18 +73,58 @@ if (! $instance = $DB->get_record("enrol", array('id'=>$data->instanceid, 'statu
 	print_error("Wrong instance for Enrolment ");
 	die;
 }
+if($exist = $DB->get_record("enrol_ipay", array('user_id' => $data->userid, 'inv' => $data->inv)))
+{
+	print_error("This transaction has been done before, (Fake Payment?)")
+}
+
+
+
+
 $plugin = enrol_get_plugin('ipay');
 $ipayaddr = 'https://www.ipayafrica.com/payments/';
 
-if($status = '')
+if($status = 'bdi6p2yy76etrs')
 {
-	print_error("Transaction Pending please contact the administrator about this");
+	$data->paymentstatus = "Pending please contact the administrator about this";
 }
-elseif ($status = '') {
-	print_error("Transaction has failed it did not get processed you can retry");
+elseif ($status = 'fe2707etr5s4wq') {
+	$data->paymentstatus = "failed it did not get processed you can retry";
 }
-elseif($status = ''){
-	echo "successful";
+elseif($status = 'aei7p7yrx4ae34'){
+	$data->paymentstatus = "successful";
+}
+elseif ($status ='cr5i3pgy9867e1') {
+	$data->paymentstatus = "Used";	# code...
+}
+elseif ($status ='dtfi4p7yty45wq'){
+	$data->paymentstatus= "Less";
+}elseif ($status = 'eq3i7p5yt7645e') {
+	$data->paymentstatus= "More";
+}
+
+//check the status die if not completed
+if(! $data->paymentstatus == "Completed")
+{
+	print_error("The Transaction is {0}", $data->paymentstatus);
+	die;
 }
 //AllClear
-$plugin = enrol_user()
+
+$DB->insert_record("enrol_ipay", $data);
+
+if($instance->enrolperiod){
+	$timestart = time();
+	$timend = $timestart+$instance->enrolperiod;
+}else{
+	$timestart = 0;
+	$timend = 0;
+}
+
+$plugin = enrol_user($instance, $user->id, $instance->roleid, $timestart, $timend);
+
+//redirect($CFG->wwwroot.'/enrol/ipay/return.php');
+echo '<script type="text/javascript">
+     window.location.href="'.$CFG->wwwroot.'/enrol/authorizedotnet/return.php?id='.$arraycourseinstance[0].'";
+     </script>';
+die;
