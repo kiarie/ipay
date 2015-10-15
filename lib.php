@@ -205,7 +205,7 @@ class enrol_ipay_plugin extends enrol_plugin
 			$userfirstname = $USER->firstname;
 			$userlastname = $USER->lastname;
 			$useremail = $USER->email;
-			$userphonenumber = $USER->phone1;
+			$userphonenumber = $USER->phone2;
 			$instancename= $this->get_instance_name($instance);
 
 			include($CFG->dirroot.'/enrol/ipay/enrol.html');

@@ -5,17 +5,25 @@
 <p><img alt="<?php print_string('ipayaccepted', 'enrol_ipay') ?>" src="pics/ipay.jpg" alt="Ipay" /></p>
 <p><?php print_string("paymentinstant") ?></p>
 <?php
-    $ipayurl = 'https://www.ipayafrica.com/payments';
+    $ipayurl = 'https://www.ipayafrica.com/payments/';
     $live = 'demo';
-    $mm='1'; $mb ='1'; $dc='1'; $cc='1'; $mer=''; $oid =''; $inv =''; $ttl =''; $vid="demo";
-    $cbk =$CFG->wwwroot.'/enrol/ipay/ipn.php?id='.$course->id;
-    $cst ='0'; $crl ='0'; $hshkey = "demo";
-    $p1 =''; $p2= ''; $p3='';$p4='';$crl='0';$cur ='KES';
+    $mm='1'; $mb ='1'; $dc='1'; $cc='1'; $mer='KIB';
+    $inv = substr(md5(time()), 0 , 6);
+	$inv = strtoupper($inv);
+	$oid=$inv;
+	$ttl =$localisedcost; $vid="demo";
+    $cbk =$CFG->wwwroot.'/enrol/ipay/ipn.php';
+    $cst ='0'; $crl ='0'; 
+    $hshkey = "demo";
+    $p1 =$USER->id; 
+    $p2=$course->id; 
+    $p3=$instance->id;
+    $p4='';$crl='0';$cur ='KES';
     $datastring = $live.$mm.$mb.$dc.$cc.$mer.$oid.$inv.$ttl.$userphonenumber.$useremail.$vid.$cur.$p1.$p2.$p3.$p4.$cbk.$cst.$crl;
     $hashkey = hash_hmac('sha1', $datastring, $hshkey);
 
 
-    $cbk = urlencode($cbk);
+    
 ?>
 <form action="<?php echo $ipayurl ?>" method="post">
 
@@ -24,15 +32,22 @@
 <input type="hidden" name="mb" value="1" />
 <input type="hidden" name="dc" value="1" />
 <input type="hidden" name="cc" value="1" />
-<input type="hidden" name="mer" value="Ipay-school" />
-<input type="hidden" name="oid" value="1" />
-<input type="hidden" name="inv" value="should be same as oid" />
-<input type="hidden" name="ttl" value="" />
+<input type="hidden" name="mer" value="<?php echo $mer ?>" />
+
+<input type="hidden" name="oid" value="<?php echo $oid ?>" />
+<input type="hidden" name="inv" value="<?php echo $inv ?>" />
+<input type="hidden" name="ttl" value="<?php echo $ttl ?>" />
 
 <input type="hidden" name="tel" value="<?php p($userphonenumber) ?>" />
 <input type="hidden" name="eml" value="<?php p($useremail) ?>" />
 
 <input type="hidden" name="vid" value="demo" />
+
+<input type="hidden" name="cur" value="<?php echo $cur ?>" />
+<input type="hidden" name="p1" value="<?php echo $p1 ?>" />
+<input type="hidden" name="p2" value="<?php echo $p2 ?>" />
+<input type="hidden" name="p3" value="<?php echo $p3 ?>" />
+<input type="hidden" name="p4" value="<?php echo $p4 ?>" />
 <input type="hidden" name="cbk" value="<?php echo $cbk ?>" />
 <input type="hidden" name="cst" value="0" />
 <input type="hidden" name="crl" value="0" />
