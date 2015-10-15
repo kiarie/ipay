@@ -75,7 +75,8 @@ if (! $instance = $DB->get_record("enrol", array('id'=>$data->instanceid, 'statu
 }
 if($exist = $DB->get_record("enrol_ipay", array('user_id' => $data->userid, 'inv' => $data->inv)))
 {
-	print_error("This transaction has been done before, (Fake Payment?)")
+	print_error("This transaction has been done before, (Fake Payment?)");
+	die;
 }
 
 
@@ -84,28 +85,22 @@ if($exist = $DB->get_record("enrol_ipay", array('user_id' => $data->userid, 'inv
 $plugin = enrol_get_plugin('ipay');
 $ipayaddr = 'https://www.ipayafrica.com/payments/';
 
-if($status = 'bdi6p2yy76etrs')
-{
+if($status = 'bdi6p2yy76etrs'){
 	$data->paymentstatus = "Pending please contact the administrator about this";
-}
-elseif ($status = 'fe2707etr5s4wq') {
+}elseif($status = 'fe2707etr5s4wq') {
 	$data->paymentstatus = "failed it did not get processed you can retry";
-}
-elseif($status = 'aei7p7yrx4ae34'){
+}elseif($status = 'aei7p7yrx4ae34'){
 	$data->paymentstatus = "successful";
-}
-elseif ($status ='cr5i3pgy9867e1') {
+}elseif ($status ='cr5i3pgy9867e1') {
 	$data->paymentstatus = "Used";	# code...
-}
-elseif ($status ='dtfi4p7yty45wq'){
+}elseif ($status ='dtfi4p7yty45wq'){
 	$data->paymentstatus= "Less";
 }elseif ($status = 'eq3i7p5yt7645e') {
 	$data->paymentstatus= "More";
 }
 
 //check the status die if not completed
-if(! $data->paymentstatus == "Completed")
-{
+if(! $data->paymentstatus == "Completed"){
 	print_error("The Transaction is {0}", $data->paymentstatus);
 	die;
 }
@@ -115,7 +110,7 @@ $DB->insert_record("enrol_ipay", $data);
 
 if($instance->enrolperiod){
 	$timestart = time();
-	$timend = $timestart+$instance->enrolperiod;
+	$timend = $timestart + $instance->enrolperiod;
 }else{
 	$timestart = 0;
 	$timend = 0;
@@ -125,6 +120,6 @@ $plugin = enrol_user($instance, $user->id, $instance->roleid, $timestart, $timen
 
 //redirect($CFG->wwwroot.'/enrol/ipay/return.php');
 echo '<script type="text/javascript">
-     window.location.href="'.$CFG->wwwroot.'/enrol/authorizedotnet/return.php?id='.$arraycourseinstance[0].'";
+     window.location.href="'.$CFG->wwwroot.'/enrol/ipay/return.php?id='.$arraycourseinstance[0].'";
      </script>';
 die;

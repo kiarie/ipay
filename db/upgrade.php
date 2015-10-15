@@ -1,12 +1,12 @@
 <?php
-function xmldb_qtype_myqtype_upgrade($oldversion) {
+function xmldb_enrol_ipay_upgrade($oldversion) {
     global $DB;
     $dbman = $DB->get_manager();
 
     /// Add a new column newcol to the mdl_myqtype_options
-    if ($oldversion < 2015031200) {
+    if ($oldversion < 2015100500) {
         // Code.
-     if ($oldversion < XXXXXXXXXX) {
+     if ($oldversion < 2015100500) {
 
         // Define field inv to be added to enrol_ipay.
         $table = new xmldb_table('enrol_ipay');
@@ -18,10 +18,9 @@ function xmldb_qtype_myqtype_upgrade($oldversion) {
         }
 
         // Ipay savepoint reached.
-        upgrade_plugin_savepoint(true, XXXXXXXXXX, 'enrol', 'ipay');
+        upgrade_plugin_savepoint(true, 2015100500, 'enrol', 'ipay');
     }
     }
 
     return true;
 }
-?>
