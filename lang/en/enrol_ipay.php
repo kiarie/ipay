@@ -50,3 +50,5 @@ $string['status'] = 'allow Ipay enrolments';
 $string['sendpaymentbutton'] = 'Send payment via IPay';
 
 
+
+?>

@@ -56,3 +56,5 @@ if (is_enrolled($context, NULL, '', true)) { // check if they are enrolled
     $a->fullname = $fullname;
     notice(get_string('paymentsorry', '', $a), $destination);
 }
+
+?>

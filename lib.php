@@ -174,7 +174,7 @@ class enrol_ipay_plugin extends enrol_plugin
 		}
 
 		if((float) $instance->cost <= 0){
-			$cost = (float) $this->get_config('cost');
+			$cost = (float) $this->get_config('cost');//get_config fetches from the original configuration settings
 		} else {
 			$cost = (float) $instance->cost;
 		}
@@ -207,6 +207,7 @@ class enrol_ipay_plugin extends enrol_plugin
 			$useremail = $USER->email;
 			$userphonenumber = $USER->phone2;
 			$instancename= $this->get_instance_name($instance);
+            $businessname = $this->get_config('businessname'); //get businessname from configuration
 
 			include($CFG->dirroot.'/enrol/ipay/enrol.html');
 			}

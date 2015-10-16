@@ -42,6 +42,10 @@ class enrol_ipay_edit_form extends moodleform {
         $mform->addElement('select', 'status', get_string('status', 'enrol_ipay'), $options);
         $mform->setDefault('status', $plugin->get_config('status'));
 
+        $mform->addElement('text', 'businessname', get_string('businessname', 'enrol_ipay'));
+        $mform->setType('businessname', PARAM_TEXT);// test if i can see business name
+        $mform->setDefault('businessname', $plugin->get_config('businessname'));
+
         $mform->addElement('text', 'cost', get_string('cost', 'enrol_ipay'), array('size'=>4));
         $mform->setType('cost', PARAM_RAW); // Use unformat_float to get real value.
         $mform->setDefault('cost', format_float($plugin->get_config('cost'), 2, true));

@@ -27,10 +27,10 @@ require_once($CFG->libdir.'/eventslib.php');
 require_once($CFG->libdir.'/enrollib.php');
 require_once($CFG->libdir.'/filelib.php');
 
-if(empty($_POST) || empty($_GET)){
+/*if(empty($_POST) || empty($_GET)){
 	print_error("Script cannot be used that way");
 }
-
+*/
 //Get the data from Ipay 
 //that will be used to verify and be used to enroll the user 
 
@@ -52,7 +52,7 @@ $fp = fopen($ipnurl, "rb");
 $status = stream_get_contents($fp, -1, -1);
 fclose($fp);
 
-if(! $user = $DB->get_record("user", arra("id"=>$data->userid)))
+if(! $user = $DB->get_record("user", array("id"=>$data->userid)))
 {
 	print_error("Invalid User or wrong user id");
 	die;
@@ -73,7 +73,7 @@ if (! $instance = $DB->get_record("enrol", array('id'=>$data->instanceid, 'statu
 	print_error("Wrong instance for Enrolment ");
 	die;
 }
-if($exist = $DB->get_record("enrol_ipay", array('user_id' => $data->userid, 'inv' => $data->inv)))
+if($exist = $DB->get_record("enrol_ipay", array('userid' => $data->userid, 'inv' => $data->inv)))
 {
 	print_error("This transaction has been done before, (Fake Payment?)");
 	die;
@@ -85,22 +85,28 @@ if($exist = $DB->get_record("enrol_ipay", array('user_id' => $data->userid, 'inv
 $plugin = enrol_get_plugin('ipay');
 $ipayaddr = 'https://www.ipayafrica.com/payments/';
 
-if($status = 'bdi6p2yy76etrs'){
+if($status = 'bdi6p2yy76etrs')
+{
 	$data->paymentstatus = "Pending please contact the administrator about this";
-}elseif($status = 'fe2707etr5s4wq') {
+}
+elseif ($status = 'fe2707etr5s4wq') {
 	$data->paymentstatus = "failed it did not get processed you can retry";
-}elseif($status = 'aei7p7yrx4ae34'){
+}
+elseif($status = 'aei7p7yrx4ae34'){
 	$data->paymentstatus = "successful";
-}elseif ($status ='cr5i3pgy9867e1') {
+}
+elseif ($status ='cr5i3pgy9867e1') {
 	$data->paymentstatus = "Used";	# code...
-}elseif ($status ='dtfi4p7yty45wq'){
+}
+elseif ($status ='dtfi4p7yty45wq'){
 	$data->paymentstatus= "Less";
 }elseif ($status = 'eq3i7p5yt7645e') {
 	$data->paymentstatus= "More";
 }
 
 //check the status die if not completed
-if(! $data->paymentstatus == "Completed"){
+if(! $data->paymentstatus == "Completed")
+{
 	print_error("The Transaction is {0}", $data->paymentstatus);
 	die;
 }
@@ -110,7 +116,7 @@ $DB->insert_record("enrol_ipay", $data);
 
 if($instance->enrolperiod){
 	$timestart = time();
-	$timend = $timestart + $instance->enrolperiod;
+	$timend = $timestart+$instance->enrolperiod;
 }else{
 	$timestart = 0;
 	$timend = 0;
@@ -122,4 +128,4 @@ $plugin = enrol_user($instance, $user->id, $instance->roleid, $timestart, $timen
 echo '<script type="text/javascript">
      window.location.href="'.$CFG->wwwroot.'/enrol/ipay/return.php?id='.$arraycourseinstance[0].'";
      </script>';
-die;
+	die;
