@@ -122,10 +122,10 @@ if($instance->enrolperiod){
 	$timend = 0;
 }
 
-$plugin = enrol_user($instance, $user->id, $instance->roleid, $timestart, $timend);
+$plugin->enrol_user($instance, $user->id, $instance->roleid, $timestart, $timend);
 
 //redirect($CFG->wwwroot.'/enrol/ipay/return.php');
 echo '<script type="text/javascript">
-     window.location.href="'.$CFG->wwwroot.'/enrol/ipay/return.php?id='.$arraycourseinstance[0].'";
+     window.location.href="'.$CFG->wwwroot.'/enrol/ipay/return.php?id='.$data->courseid.'";
      </script>';
 	die;
