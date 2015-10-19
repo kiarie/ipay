@@ -6,14 +6,17 @@
 <p><?php print_string("paymentinstant") ?></p>
 <?php
     $ipayurl = 'https://www.ipayafrica.com/payments/';
-    $live = 'demo';
-    $mm='1'; $mb ='1'; $dc='1'; $cc='1'; $mer='KIB';
+    $live = '0';
+    $mm='1'; $mb ='1'; $dc='1'; $cc='1';
+    $mer='demo';
     $inv = substr(md5(time()), 0 , 6);
 	$inv = strtoupper($inv);
 	$oid=$inv;
-	$ttl =$localisedcost; $vid="demo";
+	$ttl =$localisedcost;
+    $vid="demo";
     $cbk =$CFG->wwwroot.'/enrol/ipay/ipn.php';
-    $cst ='0'; $crl ='0'; 
+    $cst ='0';
+    $crl ='0'; 
     $hshkey = "demo";
     $p1 =$USER->id; 
     $p2=$course->id; 
@@ -27,11 +30,11 @@
 ?>
 <form action="<?php echo $ipayurl ?>" method="post">
 
-<input type="hidden" name="live" value="demo" />
-<input type="hidden" name="mm" value="1" />
-<input type="hidden" name="mb" value="1" />
-<input type="hidden" name="dc" value="1" />
-<input type="hidden" name="cc" value="1" />
+<input type="hidden" name="live" value="<?php echo $live ?>" />
+<input type="hidden" name="mm" value="<?php echo $mm ?>" />
+<input type="hidden" name="mb" value="<?php echo $mb ?>" />
+<input type="hidden" name="dc" value="<?php echo $dc ?>" />
+<input type="hidden" name="cc" value="<?php echo $cc ?>" />
 <input type="hidden" name="mer" value="<?php echo $mer ?>" />
 
 <input type="hidden" name="oid" value="<?php echo $oid ?>" />
@@ -41,7 +44,7 @@
 <input type="hidden" name="tel" value="<?php p($userphonenumber) ?>" />
 <input type="hidden" name="eml" value="<?php p($useremail) ?>" />
 
-<input type="hidden" name="vid" value="demo" />
+<input type="hidden" name="vid" value="<?php echo $vid ?>" />
 
 <input type="hidden" name="cur" value="<?php echo $cur ?>" />
 <input type="hidden" name="p1" value="<?php echo $p1 ?>" />
@@ -49,8 +52,8 @@
 <input type="hidden" name="p3" value="<?php echo $p3 ?>" />
 <input type="hidden" name="p4" value="<?php echo $p4 ?>" />
 <input type="hidden" name="cbk" value="<?php echo $cbk ?>" />
-<input type="hidden" name="cst" value="0" />
-<input type="hidden" name="crl" value="0" />
+<input type="hidden" name="cst" value="<?php echo $cst ?>" />
+<input type="hidden" name="crl" value="<?php echo $crl ?>" />
 <input type="hidden" name="hsh" value="<?php echo $hashkey ?>"/>
 
 <input type="submit" value="<?php print_string("sendpaymentbutton", "enrol_ipay") ?>" />
