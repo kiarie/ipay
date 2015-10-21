@@ -46,6 +46,8 @@ $string['ipay:config'] = 'Configure Ipay enrol instances';
 $string['ipay:manage'] = 'Manage enrolled users';
 $string['ipay:unenrol'] = 'Unenrol users from course';
 $string['ipay:unenrolself'] = 'Unenrol self from the course';
+$string['vendorid'] = 'Vendor Id';
+$string['vendorid_desc'] = 'Vendor Id assigned by Ipay for use by the Merchant';
 $string['status'] = 'allow Ipay enrolments';
 $string['sendpaymentbutton'] = 'Send payment via IPay';
 

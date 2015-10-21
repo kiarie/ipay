@@ -208,7 +208,7 @@ class enrol_ipay_plugin extends enrol_plugin
 			$userphonenumber = $USER->phone2;
 			$instancename= $this->get_instance_name($instance);
             $businessname = $this->get_config('businessname'); //get businessname from configuration
-
+            $vendorid = $this->get_config('vendorid');
 			include($CFG->dirroot.'/enrol/ipay/enrol.html');
 			}
 		}

@@ -1,19 +1,19 @@
-
+<div align="center">
 <p><?php print_string("paymentrequired") ?></p>
 <p><b><?php echo $businessname; ?></b></p>
 <p><b><?php echo get_string("cost").": {$instance->currency} {$localisedcost}"; ?></b></p>
-<p><img alt="<?php print_string('ipayaccepted', 'enrol_ipay') ?>" src="pics/ipay.jpg" alt="Ipay" /></p>
+<p><img alt="<?php print_string('ipayaccepted', 'enrol_ipay') ?>" src="https://www.ipayafrica.com/payments/img/IPAY_s.png" /></p>
 <p><?php print_string("paymentinstant") ?></p>
 <?php
     $ipayurl = 'https://www.ipayafrica.com/payments/';
     $live = '0';
     $mm='1'; $mb ='1'; $dc='1'; $cc='1';
-    $mer='demo';
+    $mer=$businessname; //put businessname for the merchant
     $inv = substr(md5(time()), 0 , 6);
 	$inv = strtoupper($inv);
 	$oid=$inv;
 	$ttl =$localisedcost;
-    $vid="demo";
+    $vid =$vendorid;
     $cbk =$CFG->wwwroot.'/enrol/ipay/ipn.php';
     $cst ='0';
     $crl ='0'; 

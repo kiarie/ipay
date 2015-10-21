@@ -88,7 +88,7 @@ $ipayaddr = 'https://www.ipayafrica.com/payments/';
 
 if($status == 'bdi6p2yy76etrs')
 {
-	$data->payment_status = "is pending please contact the administrator about this";
+	$data->payment_status = "is pending please contact the administrator about this if not enrolled";
 }
 if ($status == 'fe2707etr5s4wq') {
 	$data->paymentstatus = "failed it did not get processed you can retry again by clicking continue";
@@ -97,13 +97,13 @@ if($status == 'aei7p7yrx4ae34'){
 	$data->paymentstatus = "successful";
 }
 if ($status =='cr5i3pgy9867e1') {
-	$data->paymentstatus = "is already used";	# code...
+	$data->paymentstatus = "has already been done/used before counter repeat payment steps";	# code...
 }
 if ($status =='dtfi4p7yty45wq'){
-	$data->paymentstatus= "Ammount is less than required contact administator concerning what to do";
+	$data->paymentstatus= "Ammount is less than required, Please contact administator of the site concerning what to do";
 }
 if ($status == 'eq3i7p5yt7645e') {
-	$data->paymentstatus= "Ammount is more than required contact administator concerning what to do";
+	$data->paymentstatus= "Ammount is more than required, Please contact administator of the site concerning what to do";
 }
 
 
@@ -111,7 +111,7 @@ $PAGE->set_context($context);
 $destinaton = $CFG->wwwroot.'/enrol/index.php?id='.$data->courseid;
 //check the status die if not completed
 if($data->paymentstatus != 'successful'){
-	//message_to_admin($data->paymentstatus, $data->mc);
+	message_to_admin($data->paymentstatus, $data->userid, $data->mc);
 	$PAGE->set_url($destinaton);
 	echo $OUTPUT->header();
 	notice('The Transaction '.$data->paymentstatus, $destinaton);
@@ -140,16 +140,16 @@ if($data->paymentstatus != 'successful'){
 //--------------------------------------------------------------------
 //Helper functions to process when client has overpaid or underpaid to alert the admin
 //that he can take the necessary actions
-function message_to_admin($subject, $data)
+function message_to_admin($subject, $uid, $mc)
 {
 	$admin = get_admin();
 
-	$msg  = 'The Transaction was'. $subject. 'for id:'.$data->userid;
-	$msg .= '\n they paid '.$data->mc.' as opposed to the correct Ammount';
+	$msg  = 'The Transaction '. $subject. ' for id:'.$uid;
+	$msg .= ' they paid '.$mc.' as opposed to the correct Ammount';
 	$msgdata = new StdClass();
-	$eventdata->modulename        = 'enrol';
-    $eventdata->component         = 'enrol_ipay';
-    $eventdata->name              = 'ipay_enrolment';
+	$msgdata->modulename        = 'moodle';
+    $msgdata->component         = 'enrol_ipay';
+    $msgdata->name              = 'ipay_enrolment';
 	$msgdata->userfrom 			  = $admin;
 	$msgdata->userto     		  = $admin;
 	$msgdata->subject 			  = "Enrolment Error".$subject;

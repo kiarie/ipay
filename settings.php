@@ -30,6 +30,7 @@ if($ADMIN->fulltree)
 $settings->add(new admin_setting_heading('enrol_ipay_settings','',get_string('plugin_desc', 'enrol_ipay') ));//Adds the description at the top of the page
 //get merchant name to be used by ipay gateway
 $settings->add(new admin_setting_configtext('enrol_ipay/businessname',get_string('businessname','enrol_ipay'), get_string('businessname_desc', 'enrol_ipay'), '',PARAM_TEXT));
+$settings->add(new admin_setting_configtext('enrol_ipay/vendorid', get_string('vendorid', 'enrol_ipay'), get_string('vendorid_desc','enrol_ipay'), '', PARAM_TEXT));
 $options = array(
         ENROL_EXT_REMOVED_KEEP           => get_string('extremovedkeep', 'enrol'),
         ENROL_EXT_REMOVED_SUSPENDNOROLES => get_string('extremovedsuspendnoroles', 'enrol'),
