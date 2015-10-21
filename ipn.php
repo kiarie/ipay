@@ -150,12 +150,12 @@ function message_to_admin($subject, $data)
 	$eventdata->modulename        = 'enrol';
     $eventdata->component         = 'enrol_ipay';
     $eventdata->name              = 'ipay_enrolment';
-	$msgdata->userfrom = $admin;
-	$msgdata->userto = $admin;
-	$msgdata->subject = "Enrolment Error".$subject;
-	$msgdata->fullmessage = $msg;
-	$msgdata->fullmessageformat = '';
-	$msgdata->fullmessagehtml = '';
-	$msgdata->smallmessage = '';
+	$msgdata->userfrom 			  = $admin;
+	$msgdata->userto     		  = $admin;
+	$msgdata->subject 			  = "Enrolment Error".$subject;
+	$msgdata->fullmessage 		  = $msg;
+	$msgdata->fullmessageformat   = '';
+	$msgdata->fullmessagehtml 	  = '';
+	$msgdata->smallmessage 		  = '';
 	message_send($msgdata);
 }
