@@ -23,7 +23,7 @@ for this course as it will allow for self enrolment without payment.
 Settings
 -------------------------------------------------------------------
 
-When you install the Ipay Plugin there are some configuration settings required. Set as desired but ensure the Businessname is
+When you install the Ipay Plugin there are some configuration settings required. Set as desired but ensure the Vendor ID is
 the one you have been ASSIGNED by IPAY after registration for it will be used in processing the transactions.
 There is a hashkey also that you have to generate or let ipay generate for you but IT MUST be shared with Ipay for validation of 
 Transactions. NOTE: Its a secret key between your webapp and Ipay therefore not to be shared with any other party.
