@@ -8,14 +8,14 @@ This is an enrolment plugin for ipay on moodle an open source project.
 Install
 -------------------------------------------------------------------
 Its as easy as unzipping the package and copying it or upload it to your server in the moodle/enrol folder.
-Mooodle will then detect the plugin and will require for you to upgrade the moodle database. Click uprgade moodle
+Moodle will then detect the plugin and will require for you to upgrade the moodle database. Click uprgade moodle
 database and your plugin is installed.
 
 Enrolment Instances
 -------------------------------------------------------------------
 To enable the plugin go to your Moodle admin dashboard, Site Administration/plugins and activate your Ipay plugin.
 Default is deactivated.
-To enable a course to use Ipay as its enrolment instance. Go to Courses look for course administration/users/enrolment Methods
+To enable a course to use Ipay as its enrolment instance. Go to Courses look for course administration/users/enrolment methods
 and activate it for the desired course put the required settings apply and your good to go!
 NOTE: You have to go to a specific course then look for the course administration. Also ensure the self enrolment plugin is disabled
 for this course as it will allow for self enrolment without payment.
