@@ -6,7 +6,7 @@
 <p><?php print_string("paymentinstant") ?></p>
 <?php
     $ipayurl = 'https://www.ipayafrica.com/payments/';
-    $live = '0';
+    $live = '0';//change this
     $mm='1'; $mb ='1'; $dc='1'; $cc='1';
     $mer=$businessname; //put businessname for the merchant
     $inv = substr(md5(time()), 0 , 6);
@@ -17,7 +17,7 @@
     $cbk =$CFG->wwwroot.'/enrol/ipay/ipn.php';
     $cst ='0';
     $crl ='0'; 
-    $hshkey = "demo";
+    $hshkey = "demo";//and change this
     $p1 =$USER->id; 
     $p2=$course->id; 
     $p3=$instance->id;
