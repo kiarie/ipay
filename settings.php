@@ -41,6 +41,8 @@ $settings->add(new admin_setting_configselect('enrol_ipay/expiredaction',
 	get_string('expiredaction', 'enrol_ipay'),
 	get_string('expiredaction_help','enrol_ipay'), ENROL_EXT_REMOVED_SUSPENDNOROLES, $options));
 
+    $ipaycurrencies = enrol_get_plugin('ipay')->get_currencies();
+    $settings->add(new admin_setting_configselect('enrol_ipay/currency', get_string('currency', 'enrol_ipay'), '', 'KES', $ipaycurrencies));
 
 //the role is set here for the user who can enroll with this instance
 if(!during_initial_install()){

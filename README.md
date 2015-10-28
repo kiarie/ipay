@@ -31,3 +31,4 @@ When you install the Ipay Plugin there are some configuration settings required.
 the one you have been ASSIGNED by IPAY after registration, it will be used in processing the payment transactions.
 There is a hashkey also that you have to generate or let ipay generate for you but IT MUST be shared with Ipay for validation of 
 Transactions. NOTE: Its a secret key between your webapp and Ipay therefore not to be shared with any other party.
+

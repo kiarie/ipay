@@ -199,6 +199,14 @@ class enrol_ipay_plugin extends enrol_plugin
 			echo '<p><a href="'.$wwwroot.'/login/">'.get_string('loginsite').'</a></p>';
 			echo "</div>";
 		} else {
+            $sql = "SELECT ud.data 
+            FROM {user_info_data} ud 
+            JOIN {user_info_field} uf ON uf.id = ud.fieldid
+            WHERE ud.userid = :userid AND uf.shortname = :fieldname";
+            $params = array('userid' =>  $USER->id, 'fieldname' => 'Mobileno');
+
+            $mob= $DB->get_field_sql($sql, $params);
+
 			$coursefullname = format_string($course->fullname, true, array('context'=>$context));
 			$courseshortname = $shortname;
 			$userfullname = fullname($USER);
@@ -209,6 +217,8 @@ class enrol_ipay_plugin extends enrol_plugin
 			$instancename= $this->get_instance_name($instance);
             $businessname = $this->get_config('businessname'); //get businessname from configuration
             $vendorid = $this->get_config('vendorid');
+            $enrolperiod = $instance->enrolperiod;
+            $curr = $this->get_config('currency');
 			include($CFG->dirroot.'/enrol/ipay/enrol.html');
 			}
 		}

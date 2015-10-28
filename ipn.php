@@ -128,15 +128,46 @@ if($data->paymentstatus != 'successful'){
 	$timend = 0;
 	}
 
-	$plugin->enrol_user($instance, $user->id, $instance->roleid, $timestart, $timend);
+	//$plugin->enrol_user($instance, $user->id, $instance->roleid, $timestart, $timend);
+	//enrol_to_other_courses($instance, $user->id, $timestart, $timend, $DB);
+	test_enrol_courses($instance, $user->id, $timestart, $timend, $DB, $plugin);
 
 //redirect($CFG->wwwroot.'/enrol/ipay/return.php');
 	echo '<script type="text/javascript">
      window.location.href="'.$CFG->wwwroot.'/enrol/ipay/return.php?id='.$data->courseid.'";
      </script>';
 	die;
+//This function will enable for user to be enrolled for all courses once they have paid for one.
+	//updates the 'user_enrolments' table for every other course with a similar enrol instance
+	//excluding the course enrolled since the user will have already been enrolled to it so no repeat of action
+	//this is the hack way
+function enrol_to_other_courses($instance, $userid, $timestart, $timend, $db)
+{
+	$result = $db->get_records_sql('SELECT id FROM {enrol} WHERE id != ? AND enrol = ? AND name = ?',array($instance->id, 'ipay', $instance->name));
+	$ue = new StdClass();
+    $ue->status       = '0';
+    $ue->userid       = $userid;
+    $ue->timestart    = $timestart;
+    $ue->timeend      = $timend;
+    $ue->modifierid   = $userid;
+    $ue->timecreated  = $timestart;
+    $ue->timemodified = $ue->timecreated;
 
-
+	foreach($result as $reslt){
+		$ue->enrolid = $reslt->id;
+		$db->insert_record('user_enrolments', $ue);
+	}
+}
+// This method does what is above only that now its using the proper way using enrol_user method
+// should enrol better
+//
+function test_enrol_courses($instance, $userid, $timestart, $timend, $db, $plugin)
+{
+	$result = $db->get_records_sql('SELECT * FROM {enrol} WHERE enrol = ? AND name = ?',array('ipay', $instance->name));
+	foreach ($result as $reslt) {
+		$plugin->enrol_user($reslt, $userid, $instance->roleid, $timestart, $timend);
+	}
+}
 //--------------------------------------------------------------------
 //Helper functions to process when client has overpaid or underpaid to alert the admin
 //that he can take the necessary actions
@@ -159,3 +190,4 @@ function message_to_admin($subject, $uid, $mc)
 	$msgdata->smallmessage 		  = '';
 	message_send($msgdata);
 }
+

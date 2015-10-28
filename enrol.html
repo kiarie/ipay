@@ -1,12 +1,22 @@
-<div align="center">
-<p><?php print_string("paymentrequired") ?></p>
-<p><b><?php echo $businessname; ?></b></p>
-<p><b><?php echo get_string("cost").": {$instance->currency} {$localisedcost}"; ?></b></p>
+<script type="text/javascript">
+function ShowMe(diva){
+    var cntr = document.getElementById(diva);
+    if(cntr.style.display == 'none')
+    {cntr.style.display = 'block';}
+    else{cntr.style.display ='none';} 
+}
+</script>
+<p><?php echo $mob; ?></p>
+<div class="box" align="center" onclick="ShowMe('<?php echo $instancename; ?>');" style="border:1px Solid #ccc; padding:10px; background:#FF5F5F5;">
+<b><?php echo $instancename."'s Subcription Click HERE"; ?></b></div>
+<div id= "<?php echo $instancename; ?>" align="center" style="display:none;">
+<p><b><?php echo $instancename."ly Subcription "; ?></b></p>
+<p><b><?php echo get_string("cost").": {$curr} {$localisedcost}"; ?></b></p>
 <p><img alt="<?php print_string('ipayaccepted', 'enrol_ipay') ?>" src="https://www.ipayafrica.com/payments/img/IPAY_s.png" /></p>
 <p><?php print_string("paymentinstant") ?></p>
 <?php
     $ipayurl = 'https://www.ipayafrica.com/payments/';
-    $live = '1';//change this to live "1" or demo "0"
+    $live = '0';//change this to live "1" or demo "0"
     $mm='1'; $mb ='1'; $dc='1'; $cc='1';
     $mer=$businessname; //put businessname for the merchant
     $inv = substr(md5(time()), 0 , 6);
@@ -21,7 +31,7 @@
     $p1 =$USER->id; 
     $p2=$course->id; 
     $p3=$instance->id;
-    $p4='';$crl='0';$cur ='KES';
+    $p4='';$crl='0';$cur =$curr;
     $datastring = $live.$mm.$mb.$dc.$cc.$mer.$oid.$inv.$ttl.$userphonenumber.$useremail.$vid.$cur.$p1.$p2.$p3.$p4.$cbk.$cst.$crl;
     $hashkey = hash_hmac('sha1', $datastring, $hshkey);
 
