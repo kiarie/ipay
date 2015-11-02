@@ -26,6 +26,7 @@ require("../../config.php");
 require_once("$CFG->dirroot/enrol/ipay/lib.php");
 
 $id = required_param('id', PARAM_INT);
+$stat = required_param('stat', PARAM_TEXT);
 
 if (!$course = $DB->get_record("course", array("id"=>$id))) {
     redirect($CFG->wwwroot);
@@ -45,7 +46,12 @@ if (!empty($SESSION->wantsurl)) {
 
 $fullname = format_string($course->fullname, true, array('context' => $context));
 
-if (is_enrolled($context, NULL, '', true)) { // check if they are enrolled
+if (is_enrolled($context, NULL, '', true) && $stat == 'eq3i7p5yt7645e') 
+{
+    redirect($destination, 'Thank You for your payment, You are enrolled for '.$fullname.' but you have overpaid just contact the administator about this.');
+}
+if(is_enrolled($context, NULL, '', true) && $stat != 'eq3i7p5yt7645e') {
+ // check if they are enrolled
     redirect($destination, get_string('paymentthanks', '', $fullname));
 
 } else {   /// Somehow they aren't enrolled yet!  :-(
@@ -56,5 +62,3 @@ if (is_enrolled($context, NULL, '', true)) { // check if they are enrolled
     $a->fullname = $fullname;
     notice(get_string('paymentsorry', '', $a), $destination);
 }
-
-?>

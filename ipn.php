@@ -110,13 +110,8 @@ if ($status == 'eq3i7p5yt7645e') {
 $PAGE->set_context($context);
 $destinaton = $CFG->wwwroot.'/enrol/index.php?id='.$data->courseid;
 //check the status die if not completed
-if($data->paymentstatus != 'successful'){
-	message_to_admin($data->paymentstatus, $data->userid, $data->mc);
-	$PAGE->set_url($destinaton);
-	echo $OUTPUT->header();
-	notice('The Transaction '.$data->paymentstatus, $destinaton);
-}
-//AllClear
+if($status == 'eq3i7p5yt7645e' || $data->paymentstatus == 'successful'){
+	//message_to_admin($data->paymentstatus, $data->userid, $data->mc);
 
 	$DB->insert_record("enrol_ipay", $data);
 
@@ -128,15 +123,24 @@ if($data->paymentstatus != 'successful'){
 	$timend = 0;
 	}
 
-	//$plugin->enrol_user($instance, $user->id, $instance->roleid, $timestart, $timend);
+	$plugin->enrol_user($instance, $user->id, $instance->roleid, $timestart, $timend);
 	//enrol_to_other_courses($instance, $user->id, $timestart, $timend, $DB);
-	test_enrol_courses($instance, $user->id, $timestart, $timend, $DB, $plugin);
+	//enrol_to_all_courses($instance, $user->id, $timestart, $timend, $DB, $plugin);
 
 //redirect($CFG->wwwroot.'/enrol/ipay/return.php');
 	echo '<script type="text/javascript">
-     window.location.href="'.$CFG->wwwroot.'/enrol/ipay/return.php?id='.$data->courseid.'";
+     window.location.href="'.$CFG->wwwroot.'/enrol/ipay/return.php?id='.$data->courseid.'&stat='.$status.'";
      </script>';
 	die;
+
+}
+
+	$PAGE->set_url($destinaton);
+	echo $OUTPUT->header();
+	notice('The Transaction '.$data->paymentstatus, $destinaton);
+
+//AllClear
+
 //This function will enable for user to be enrolled for all courses once they have paid for one.
 	//updates the 'user_enrolments' table for every other course with a similar enrol instance
 	//excluding the course enrolled since the user will have already been enrolled to it so no repeat of action
@@ -161,7 +165,7 @@ function enrol_to_other_courses($instance, $userid, $timestart, $timend, $db)
 // This method does what is above only that now its using the proper way using enrol_user method
 // should enrol better
 //
-function test_enrol_courses($instance, $userid, $timestart, $timend, $db, $plugin)
+function enrol_to_all_courses($instance, $userid, $timestart, $timend, $db, $plugin)
 {
 	$result = $db->get_records_sql('SELECT * FROM {enrol} WHERE enrol = ? AND name = ?',array('ipay', $instance->name));
 	foreach ($result as $reslt) {
