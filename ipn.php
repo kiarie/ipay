@@ -139,7 +139,7 @@ if($status == 'eq3i7p5yt7645e' || $data->paymentstatus == 'successful'){
 	echo $OUTPUT->header();
 	notice('The Transaction '.$data->paymentstatus, $destinaton);
 
-//AllClear
+
 
 //This function will enable for user to be enrolled for all courses once they have paid for one.
 	//updates the 'user_enrolments' table for every other course with a similar enrol instance

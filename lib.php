@@ -146,7 +146,8 @@ class enrol_ipay_plugin extends enrol_plugin
 		global $CFG, $USER, $OUTPUT, $PAGE, $DB;
 
 		ob_start();
-		if($DB->record_exists('user_enrolments',array('userid' => $USER->id , 'enrolid'=>$instance->id ))){
+        $select = "userid = '".$USER->id."' AND enrolid ='".$instance->id."' AND timeend >'".time()."'";
+		if($DB->record_exists_select('user_enrolments', $select, array($params=null))){
 			return ob_get_clean();
 		}
 		if($instance->enrolstartdate != 0 && $instance->enrolstartdate > time()){
